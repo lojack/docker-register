@@ -15,5 +15,6 @@ RUN pip install python-etcd
 ADD . /app
 
 ENV DOCKER_HOST unix:///var/run/docker.sock
+ENV HOST_IP $(hostname --all-ip-addresses | awk '{print $1}')
 
 CMD docker-gen -interval 10 -watch -notify "python /tmp/register.py" etcd.tmpl /tmp/register.py
