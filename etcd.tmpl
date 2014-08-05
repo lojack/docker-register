@@ -5,20 +5,19 @@ import etcd
 import sys
 from urlparse import urlparse
 
-etcd_host = "{{ .Env.ETCD_HOST }}" or "{{ .Env.ETCD_1_PORT_4001_TCP_ADDR }}"
+etcd_host = "{{ .Env.ETCD_1_PORT_4001_TCP_ADDR }}"
+etcd_port = "{{ .Env.ETCD_1_PORT_4001_TCP_PORT }}"
+
 if not etcd_host:
     print "ETCD_HOST not set"
     sys.exit(1)
+    
+if not etcd_port:
+    print "ETCD_PORT not set"
+    sys.exit(1)
+    
 
-print etcd_host
-
-port = 4001
-host = etcd_host
-
-if ":" in etcd_host:
-    host, port = etcd_host.split(":")
-
-client = etcd.Client(host=host, port=int(port))
+client = etcd.Client(host=etcd_host, port=int(etcd_port))
 
 try:
     backends = client.read("/backends")
