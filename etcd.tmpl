@@ -5,7 +5,7 @@ import etcd
 import sys
 from urlparse import urlparse
 
-etcd_host = "{{ .Env.ETCD_HOST }}"
+etcd_host = "{{ .Env.ETCD_HOST }}" or "{{ .Env.ETCD_1_PORT_4001_TCP_ADDR }}"
 if not etcd_host:
     print "ETCD_HOST not set"
     sys.exit(1)
